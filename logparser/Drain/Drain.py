@@ -257,7 +257,7 @@ class LogParser:
         
         print("------------sessionlog------------")
         #print(sessionLog.items())
-        with open(self.savePath+ "session.log","w") as file:
+        with open(self.savePath+self.logName+ "_session","w") as file:
             for i,session in sessionLog.items():
                 seq = " ".join(session)
                 file.write(seq+'\n')

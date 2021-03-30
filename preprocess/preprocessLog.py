@@ -9,6 +9,7 @@ from shutil import copyfile
 
 output file name: _afterPreProcess"
 '''
+purgeLine = 7
 def preprocess(input_filePath,output_filePath):
     count =0
     with open(input_filePath,'r') as inputFile:
@@ -16,7 +17,7 @@ def preprocess(input_filePath,output_filePath):
             count+=1 
             line= inputFile.readline()
             while line:
-                if(count >3):
+                if(count >purgeLine):
                     outputFile.write(line)
                 count+=1 
                 line= inputFile.readline()
@@ -28,7 +29,8 @@ if __name__ == "__main__":
     input_dir_list  = ['../logs/mysql/query.log']
     print("path:",os.path.split(input_dir_list[curIndex]))
     input_dir ,log_file= os.path.split(input_dir_list[curIndex])
-
-    preprocess_input_fileName = input_dir+'/'+log_file
-    preprocess_output_fileName = input_dir+'/'+log_file +"_afterPreProcess"
+    normalOrAbnormal = sys.argv[1]
+    preprocess_input_fileName = input_dir+'/'+log_file+"_"+normalOrAbnormal
+    preprocess_output_fileName = preprocess_input_fileName+"_afterPreProcess"
     preprocess(preprocess_input_fileName,preprocess_output_fileName)
+    print("preprocess complete")

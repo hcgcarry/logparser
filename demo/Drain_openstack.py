@@ -6,29 +6,34 @@ from logparser import Drain
 from createSessonLog.createSessionLog  import LogParser
 from shutil import copyfile
 from preprocess.preprocessLog import preprocess
-#inputfilename = sys.argv[1]
-curIndex = 1
+type = sys.argv[1]
+if len(sys.argv) < 2:
+    print("usage:python Drain_openstack.py {normal|abnormal}")
+if type == "normal":
+    curIndex = 0
+else:
+    curIndex = 1
 
 
-output_dir = 'Drain_result_mysql/'  # The output directory of parsing results
-input_dir_list  = ['../logs/mysql/query.log_normal_afterPreProcess', '../logs/mysql/query.log_abnormal_afterPreProcess']
+output_dir = 'Drain_result_openstack/'  # The output directory of parsing results
+input_path_list  = ['../logs/openstack_label/openstack_normal1.log', '../logs/openstack_label/openstack_abnormal.log']
 
-print("path:",os.path.split(input_dir_list[curIndex]))
-input_dir ,log_file= os.path.split(input_dir_list[curIndex])
-copyfile(input_dir_list[curIndex], output_dir+log_file)
 
+print("path:",os.path.split(input_path_list[curIndex]))
+input_dir ,log_file= os.path.split(input_path_list[curIndex])
+copyfile(input_path_list[curIndex], output_dir+log_file)
 
 
  #log format
-log_format_list = ['<Time> <Id> <Content>' ,'<Time> <Id> <Content>']
+log_format_list = ['<Logrecord> <Date> <Time> <Pid> <Level> <Component> \[<ADDR>\] <Content>', '<Logrecord> <Date> <Time> <Pid> <Level> <Component> \[<ADDR>\] <Content>']
 log_format = log_format_list[curIndex]
 
 # Regular expression list for optional preprocessing (default: [])
 regex      = [
-    r'(?<=[^A-Za-z0-9])(\-?\+?\d+)(?=[^A-Za-z0-9])|[0-9]+$' # Numbers
+        r'((\d+\.){3}\d+,?)+', r'/.+?\s', r'\d+'
 ]
 st         = 0.5  # Similarity threshold
-depth      = 4  # Depth of all leaf nodes
+depth      = 5  # Depth of all leaf nodes
 
 
 parser = Drain.LogParser(log_format, indir=input_dir, outdir=output_dir,  depth=depth, st=st, rex=regex,keep_para=False)

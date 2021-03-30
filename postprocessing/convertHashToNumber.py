@@ -29,6 +29,7 @@ def convert(input_log_file,output_log_file):
             file.write(seq+'\n')
 
 if __name__ == "__main__":
-    input_log_file = "../demo/Drain_result_mysql/session.log"
+    #input_log_file = "../demo/Drain_result_mysql/query.log_normal_afterPreProcess_session"
+    input_log_file = "../demo/Drain_result_mysql/query.log_abnormal_afterPreProcess_session"
     output_log_file = input_log_file + "_numberID"
     convert(input_log_file,output_log_file)
