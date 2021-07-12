@@ -81,3 +81,16 @@ For any questions or feedback, please post to [the issue page](https://github.co
 
 ### my note
 有在用的 : demo/mysql_demo.py
+因為drain只比對csv中content的部份,所以在demo那邊用來切出content的regex的設定很重要
+
+
+
+## row log to session log
+
+1. 先對row log 做preprocessing
+2. demo下面的 drain_openstack 複製一份並且更改 regex 我們需要的 ,log path
+3. 去drain下面把        self.convertStructureLogToSessionLogBySessionID({session label}}
+session label改成我們這個log的csv中的session label
+4. python {demo 下面的py黨名} normal
+5. session log result 在demo下面
+4. postprocessing 下面 把hash的session log 轉成 1 label

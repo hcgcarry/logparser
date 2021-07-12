@@ -243,13 +243,14 @@ class LogParser:
         del df_event['EventId']
         del df_event['Occurrences']
         df_event.to_csv(os.path.join(self.savePath, self.logName + '_onlyTemplates.csv'), index=False, columns=["EventTemplate"])
-        self.convertStructureLogToSessionLog()
+        #要轉換成session log 改這邊 ,如果不要的話要註解掉這行,參數是session 在csv裡面的label
+        self.convertStructureLogToSessionLogBySessionID("Instance")
 
 
-    def convertStructureLogToSessionLog(self):
+    def convertStructureLogToSessionLogBySessionID(self,sessionLabel):
         sessionLog = dict()
         for idx, line in self.df_log.iterrows():
-            id = line['Id']
+            id = line[sessionLabel]
             if id not in  sessionLog:
                 sessionLog[id] = [line['EventId']]
             else:

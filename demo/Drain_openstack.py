@@ -16,7 +16,7 @@ else:
 
 
 output_dir = 'Drain_result_openstack/'  # The output directory of parsing results
-input_path_list  = ['../logs/openstack_label/openstack_normal1.log', '../logs/openstack_label/openstack_abnormal.log']
+input_path_list  = ['../logs/openstack_label/openstack_normal1.log_preprocess', '../logs/openstack_label/openstack_abnormal.log_preprocess']
 
 
 print("path:",os.path.split(input_path_list[curIndex]))
@@ -25,13 +25,14 @@ copyfile(input_path_list[curIndex], output_dir+log_file)
 
 
  #log format
-log_format_list = ['<Logrecord> <Date> <Time> <Pid> <Level> <Component> \[<ADDR>\] <Content>', '<Logrecord> <Date> <Time> <Pid> <Level> <Component> \[<ADDR>\] <Content>']
-log_format = log_format_list[curIndex]
+log_format = '<Logrecord> <Date> <Time> <Pid> <Level> <Component> \[<ADDR>\] <Instance> <Content>'
+
 
 # Regular expression list for optional preprocessing (default: [])
 regex      = [
-        r'((\d+\.){3}\d+,?)+', r'/.+?\s', r'\d+'
+        r'((\d+\.){3}\d+,?)+', r'/.+?\s', r'\d+' , r'\d'
 ]
+#instance: 0f079bdd-4117-4f6a-8b49-f3fb720b483c]
 st         = 0.5  # Similarity threshold
 depth      = 5  # Depth of all leaf nodes
 
